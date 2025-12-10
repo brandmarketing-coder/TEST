@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界地理小百科</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Traditional Chinese -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0f9ff;
+            background-image: radial-gradient(#e0f2fe 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Card Hover Effects */
+        .geo-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .geo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms, transform 300ms;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 200ms, transform 200ms;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .emoji-flag {
+            font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="renderHome()">
+                <i class="fa-solid fa-earth-americas text-3xl text-blue-600"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-800 tracking-wide">世界地理小百科</h1>
+            </div>
+            <button onclick="renderHome()" class="hidden md:block px-4 py-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 font-bold transition">
+                <i class="fa-solid fa-house mr-2"></i>回首頁
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="app-container" class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="mb-2">探索世界，發現新知 🌍</p>
+            <p class="text-slate-400 text-sm">© 2023 地理知識互動網頁 | 學習用途範例</p>
+        </div>
+    </footer>
+
+    <!-- Modal Template (Hidden by default) -->
+    <div id="info-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 scale-90" id="modal-content">
+            <!-- Header with Color -->
+            <div id="modal-header-bg" class="h-24 bg-blue-500 relative flex justify-center items-end">
+                <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white rounded-full p-2 w-8 h-8 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="emoji-flag text-6xl shadow-lg rounded-full bg-white w-20 h-20 flex items-center justify-center absolute -bottom-10 border-4 border-white" id="modal-flag">
+                    🇹🇼
+                </div>
+            </div>
+            
+            <!-- Body -->
+            <div class="pt-12 px-6 pb-6 text-center">
+                <h2 id="modal-country-name" class="text-3xl font-bold text-slate-800 mb-1">台灣</h2>
+                <p id="modal-capital" class="text-slate-500 text-sm mb-6 uppercase tracking-wider font-semibold">首都：台北</p>
+                
+                <div class="text-left bg-slate-50 rounded-xl p-5 border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-yellow-500"></i> 你知道嗎？
+                    </h3>
+                    <p id="modal-fact" class="text-slate-600 leading-relaxed">
+                        這裡會顯示有趣的冷知識...
+                    </p>
+                </div>
+
+                <div class="mt-6 flex justify-center gap-4">
+                     <div class="flex flex-col items-center">
+                        <span class="text-xs text-slate-400 mb-1">著名地標</span>
+                        <span id="modal-landmark" class="font-medium text-slate-700">台北 101</span>
+                     </div>
+                     <div class="w-px bg-slate-200"></div>
+                     <div class="flex flex-col items-center">
+                        <span class="text-xs text-slate-400 mb-1">主要語言</span>
+                        <span id="modal-language" class="font-medium text-slate-700">中文</span>
+                     </div>
+                </div>
+
+                <button onclick="closeModal()" class="mt-8 w-full py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition">
+                    關閉視窗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data: World Geography Knowledge ---
+        const geoData = {
+            asia: {
+                id: 'asia',
+                name: '亞洲',
+                color: 'bg-red-500',
+                bgLight: 'bg-red-50',
+                text: 'text-red-600',
+                icon: 'fa-torii-gate',
+                description: '世界上面積最大、人口最多的大洲，擁有豐富的文化多樣性。',
+                countries: [
+                    {
+                        name: '台灣',
+                        flag: '🇹🇼',
+                        capital: '台北',
+                        landmark: '台北 101',
+                        language: '繁體中文',
+                        fact: '台灣便利商店的密度是全球第二高！你可以在這裡繳費、寄包裹、買車票，甚至洗衣服。此外，台灣也是珍珠奶茶的發源地。'
+                    },
+                    {
+                        name: '日本',
+                        flag: '🇯🇵',
+                        capital: '東京',
+                        landmark: '富士山',
+                        language: '日語',
+                        fact: '日本擁有世界上最古老的公司「金剛組」，成立於西元578年，專門建造寺廟，至今已營業超過1400年。此外，日本的自動販賣機密度極高。'
+                    },
+                    {
+                        name: '印度',
+                        flag: '🇮🇳',
+                        capital: '新德里',
+                        landmark: '泰姬瑪哈陵',
+                        language: '印地語/英語',
+                        fact: '印度是西洋棋（Chess）的發源地，古稱「恰圖蘭卡」。另外，印度擁有世界上最多的素食人口。'
+                    },
+                    {
+                        name: '泰國',
+                        flag: '🇹🇭',
+                        capital: '曼谷',
+                        landmark: '大皇宮',
+                        language: '泰語',
+                        fact: '曼谷的全名是世界上最長的地名，由169個拉丁字母組成，翻譯過來包含「天使之城、宏偉之城、玉佛的寶座...」等極長的尊稱。'
+                    }
+                ]
+            },
+            europe: {
+                id: 'europe',
+                name: '歐洲',
+                color: 'bg-blue-500',
+                bgLight: 'bg-blue-50',
+                text: 'text-blue-600',
+                icon: 'fa-landmark',
+                description: '西方文明的發源地，擁有悠久的歷史建築與藝術遺產。',
+                countries: [
+                    {
+                        name: '法國',
+                        flag: '🇫🇷',
+                        capital: '巴黎',
+                        landmark: '艾菲爾鐵塔',
+                        language: '法語',
+                        fact: '艾菲爾鐵塔在夏天會長高！因為熱脹冷縮的原理，鐵塔的高度在炎熱的夏季可能會增加約15公分。'
+                    },
+                    {
+                        name: '義大利',
+                        flag: '🇮🇹',
+                        capital: '羅馬',
+                        landmark: '羅馬競技場',
+                        language: '義大利語',
+                        fact: '遊客每年會向羅馬的特雷維許願池（Trevi Fountain）投擲超過100萬歐元的硬幣。這些錢會被收集起來捐給慈善機構。'
+                    },
+                    {
+                        name: '冰島',
+                        flag: '🇮🇸',
+                        capital: '雷克雅維克',
+                        landmark: '藍湖溫泉',
+                        language: '冰島語',
+                        fact: '冰島是世界上少數完全沒有蚊子的國家之一！因為氣候變化太快，蚊子無法完成生命週期。'
+                    },
+                    {
+                        name: '荷蘭',
+                        flag: '🇳🇱',
+                        capital: '阿姆斯特丹',
+                        landmark: '風車村',
+                        language: '荷蘭語',
+                        fact: '荷蘭男性的平均身高是世界最高的，平均約183公分。此外，荷蘭的自行車數量比人口還要多。'
+                    }
+                ]
+            },
+            americas: {
+                id: 'americas',
+                name: '美洲',
+                color: 'bg-green-500',
+                bgLight: 'bg-green-50',
+                text: 'text-green-600',
+                icon: 'fa-mountain-sun',
+                description: '包含北美與南美，擁有壯麗的自然景觀與多元移民文化。',
+                countries: [
+                    {
+                        name: '美國',
+                        flag: '🇺🇸',
+                        capital: '華盛頓特區',
+                        landmark: '自由女神像',
+                        language: '英語',
+                        fact: '美國公共圖書館的數量比麥當勞還多！這顯示了社區教育資源的普及程度。'
+                    },
+                    {
+                        name: '巴西',
+                        flag: '🇧🇷',
+                        capital: '巴西利亞',
+                        landmark: '基督像',
+                        language: '葡萄牙語',
+                        fact: '巴西是世界上生物多樣性最豐富的國家，亞馬遜雨林產生了地球上約20%的氧氣，被稱為「地球之肺」。'
+                    },
+                    {
+                        name: '加拿大',
+                        flag: '🇨🇦',
+                        capital: '渥太華',
+                        landmark: '尼加拉瀑布',
+                        language: '英語/法語',
+                        fact: '加拿大擁有世界上最多的湖泊，其湖泊總數超過了世界其他所有國家湖泊數量的總和。'
+                    },
+                    {
+                        name: '秘魯',
+                        flag: '🇵🇪',
+                        capital: '利馬',
+                        landmark: '馬丘比丘',
+                        language: '西班牙語',
+                        fact: '馬鈴薯最早起源於秘魯！這裡有超過3000種不同品種的馬鈴薯，顏色和形狀千奇百怪。'
+                    }
+                ]
+            },
+            africa: {
+                id: 'africa',
+                name: '非洲',
+                color: 'bg-yellow-500',
+                bgLight: 'bg-yellow-50',
+                text: 'text-yellow-600',
+                icon: 'fa-paw',
+                description: '人類的起源地，擁有廣闊的草原與獨特的野生生態。',
+                countries: [
+                    {
+                        name: '埃及',
+                        flag: '🇪🇬',
+                        capital: '開羅',
+                        landmark: '金字塔',
+                        language: '阿拉伯語',
+                        fact: '雖然現在是沙漠，但在建造金字塔時期，撒哈拉地區其實是綠意盎然的草原。另外，古埃及人發明了365天的曆法。'
+                    },
+                    {
+                        name: '馬達加斯加',
+                        flag: '🇲🇬',
+                        capital: '塔那那利佛',
+                        landmark: '猴麵包樹大道',
+                        language: '馬拉加西語',
+                        fact: '馬達加斯加約90%的野生動植物是該島特有的，在世界其他地方都找不到，例如各式各樣的狐猴。'
+                    },
+                    {
+                        name: '肯亞',
+                        flag: '🇰🇪',
+                        capital: '奈洛比',
+                        landmark: '馬賽馬拉',
+                        language: '斯瓦希里語',
+                        fact: '肯亞是長跑選手的搖籃，該國 Kalenjin 部落的人口僅佔世界0.06%，卻贏得了大比例的國際長跑獎牌。'
+                    }
+                ]
+            },
+            oceania: {
+                id: 'oceania',
+                name: '大洋洲',
+                color: 'bg-indigo-500',
+                bgLight: 'bg-indigo-50',
+                text: 'text-indigo-600',
+                icon: 'fa-water',
+                description: '由澳洲大陸及無數太平洋島嶼組成，海洋資源豐富。',
+                countries: [
+                    {
+                        name: '澳洲',
+                        flag: '🇦🇺',
+                        capital: '坎培拉',
+                        landmark: '雪梨歌劇院',
+                        language: '英語',
+                        fact: '澳洲的袋鼠數量比人口還多！如果你算一算，平均每個澳洲人可以分配到兩隻袋鼠。'
+                    },
+                    {
+                        name: '紐西蘭',
+                        flag: '🇳🇿',
+                        capital: '威靈頓',
+                        landmark: '米爾福德峽灣',
+                        language: '英語/毛利語',
+                        fact: '紐西蘭是《魔戒》電影的拍攝地。這裡沒有蛇，且擁有一座名為「Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu」的山，是世界上名字最長的地名之一。'
+                    }
+                ]
+            }
+        };
+
+        const appContainer = document.getElementById('app-container');
+        const modal = document.getElementById('info-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        // --- Functions ---
+
+        // 1. Render Home (World Map View)
+        function renderHome() {
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            let html = `
+                <div class="text-center mb-10 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">探索世界板塊</h2>
+                    <p class="text-slate-500">點擊下方的大洲，開始您的地理知識之旅</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+
+            for (const key in geoData) {
+                const region = geoData[key];
+                html += `
+                    <div onclick="renderRegion('${key}')" class="geo-card cursor-pointer bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden group">
+                        <div class="h-32 ${region.color} flex items-center justify-center relative overflow-hidden">
+                            <i class="fa-solid ${region.icon} text-6xl text-white opacity-80 group-hover:scale-110 transition duration-500"></i>
+                            <div class="absolute -bottom-4 -right-4 text-white opacity-20 text-8xl">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                ${region.name} 
+                                <i class="fa-solid fa-arrow-right text-sm opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition text-slate-400"></i>
+                            </h3>
+                            <p class="text-slate-500 text-sm leading-relaxed">${region.description}</p>
+                            <div class="mt-4 flex items-center gap-2 text-xs font-bold ${region.text} bg-white border border-slate-100 inline-block px-3 py-1 rounded-full shadow-sm">
+                                <span>${region.countries.length} 個國家資料</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            appContainer.innerHTML = html;
+        }
+
+        // 2. Render Region (Country List View)
+        function renderRegion(regionKey) {
+            const region = geoData[regionKey];
+            
+            // Generate Countries HTML
+            let countriesHtml = '';
+            region.countries.forEach(country => {
+                // We stringify the country object to pass it to the function, handling quotes
+                const countryString = JSON.stringify(country).replace(/"/g, '&quot;');
+                
+                countriesHtml += `
+                    <div onclick="showCountryDetails(${countryString}, '${region.color}')" class="geo-card cursor-pointer bg-white rounded-xl shadow-sm border border-slate-100 p-4 flex items-center gap-4 hover:bg-slate-50 group">
+                        <div class="text-4xl shadow-sm rounded-lg p-2 bg-slate-50 border border-slate-100 emoji-flag">${country.flag}</div>
+                        <div class="flex-1">
+                            <h4 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition">${country.name}</h4>
+                            <p class="text-xs text-slate-500">首都：${country.capital}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-600 transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <div class="mb-6 flex items-center gap-2 text-sm text-slate-500">
+                    <span class="hover:text-blue-600 cursor-pointer" onclick="renderHome()">首頁</span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                    <span class="font-bold text-slate-800">${region.name}</span>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+                    <div class="${region.color} p-8 text-white relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h2 class="text-4xl font-bold mb-2 flex items-center gap-3">
+                                <i class="fa-solid ${region.icon}"></i> ${region.name}
+                            </h2>
+                            <p class="text-white text-opacity-90 max-w-2xl">${region.description}</p>
+                        </div>
+                        <i class="fa-solid fa-earth-americas absolute -right-10 -bottom-20 text-9xl text-white opacity-20"></i>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-slate-800 mb-4 px-2 border-l-4 ${region.text.replace('text', 'border')} pl-3">精選國家</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${countriesHtml}
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button onclick="renderHome()" class="px-6 py-2 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 font-bold transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i>返回世界地圖
+                    </button>
+                </div>
+            `;
+
+            appContainer.innerHTML = html;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 3. Show Modal
+        function showCountryDetails(country, colorClass) {
+            // Update Modal Content
+            document.getElementById('modal-flag').textContent = country.flag;
+            document.getElementById('modal-country-name').textContent = country.name;
+            document.getElementById('modal-capital').textContent = `首都：${country.capital}`;
+            document.getElementById('modal-fact').textContent = country.fact;
+            document.getElementById('modal-landmark').textContent = country.landmark;
+            document.getElementById('modal-language').textContent = country.language;
+
+            // Update Header Color (remove old color classes first)
+            const header = document.getElementById('modal-header-bg');
+            header.className = `h-24 relative flex justify-center items-end ${colorClass}`;
+
+            // Show Modal
+            modal.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        // 4. Close Modal
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-90');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        renderHome();
+
+    </script>
+</body>
+</html>
