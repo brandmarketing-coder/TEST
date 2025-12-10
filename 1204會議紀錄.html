@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網路輿情防禦策略儀表板</title>
+    <!-- 載入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+TC:wght@100..900&display=swap');
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 p-6 bg-white shadow-lg rounded-xl">
+            <h1 class="text-3xl font-extrabold text-indigo-700">網路輿情防禦策略儀表板</h1>
+            <p class="mt-2 text-gray-600">整體策略方向、組織分工與預算規劃摘要</p>
+        </header>
+
+        <!-- 策略與目標 -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- 核心策略卡 -->
+            <div class="md:col-span-1 p-6 bg-indigo-50 border-l-4 border-indigo-500 rounded-xl shadow-md">
+                <h2 class="text-xl font-bold text-indigo-600 mb-3">核心目標：建立自營網軍與防禦系統</h2>
+                <ul class="space-y-2 text-sm text-gray-700 list-disc pl-5">
+                    <li>帳號建置：購買與自行建立，後台由秉和負責整合。</li>
+                    <li>角色設定：每個帳號具備特定角色與使用情境。</li>
+                    <li>執行分工：歐萊德團隊執行，電商平台支援。</li>
+                </ul>
+            </div>
+
+            <!-- 帳號部署規劃卡 -->
+            <div class="md:col-span-2 p-6 bg-white rounded-xl shadow-md">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">三大核心帳號部署市場</h2>
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <div class="text-center p-4 bg-gray-100 rounded-lg border border-gray-200">
+                        <span class="text-2xl font-semibold text-red-500">🇹🇼</span>
+                        <p class="mt-1 font-medium text-gray-700">台灣本地帳號</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-100 rounded-lg border border-gray-200">
+                        <span class="text-2xl font-semibold text-red-500">🇨🇳</span>
+                        <p class="mt-1 font-medium text-gray-700">中國大陸帳號</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-100 rounded-lg border border-gray-200">
+                        <span class="text-2xl font-semibold text-red-500">🇪🇺</span>
+                        <p class="mt-1 font-medium text-gray-700">國際帳號 (鎖定歐盟區)</p>
+                    </div>
+                </div>
+                <p class="mt-3 text-sm text-gray-500">特別鎖定波蘭與挪威市場。</p>
+            </div>
+        </div>
+
+        <!-- 團隊與角色分工 -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-200">二、AI 輿論協作與團隊分工</h2>
+            <div class="grid lg:grid-cols-2 gap-6">
+
+                <!-- 派別一：正向派 (品牌友軍) -->
+                <div class="p-6 bg-green-50 rounded-xl shadow-lg border border-green-200">
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3 text-green-600">✨</span>
+                        <h3 class="text-xl font-bold text-green-700">正向派：捍衛家園 (品牌友軍)</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-green-500">✓</span>
+                            <p><strong>主要任務：</strong>為品牌官網與社群貼文給予支持，建立正面氛圍。</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-green-500">✓</span>
+                            <p><strong>負責團隊：</strong>歐萊德團隊 (負責日常維運)。</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-green-500">✓</span>
+                            <p><strong>系統操作：</strong>承恩與弈揚 (使用韓總系統)。</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 派別二：維護/PRO等級 (打擊魔鬼隊) -->
+                <div class="p-6 bg-red-50 rounded-xl shadow-lg border border-red-200">
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3 text-red-600">⚔️</span>
+                        <h3 class="text-xl font-bold text-red-700">維護/PRO 等級：打擊魔鬼隊 (輿論反制)</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-red-500">✓</span>
+                            <p><strong>主要任務：</strong>面對攻擊性內容，執行反制與控管輿論。</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-red-500">✓</span>
+                            <p><strong>負責團隊：</strong>行銷公司與口碑團隊協作。</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-red-500">✓</span>
+                            <p><strong>隊長：</strong>超哥 (帶領反制隊伍)。</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-5 h-5 mt-1 mr-2 text-red-500">✓</span>
+                            <p><strong>備註：</strong>假日補位，必要時平台直接封鎖攻擊帳號。</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 預算與資源規劃 -->
+        <div class="p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-200">三、預算、工具與風險控管</h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- 預算方向 -->
+                <div class="md:col-span-1 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <h3 class="text-lg font-semibold text-yellow-800 mb-2">預算與規模</h3>
+                    <p class="text-2xl font-extrabold text-yellow-600">NT$ 300 萬 (滾動式調整)</p>
+                    <p class="text-sm text-gray-600 mt-2">目標：納入 2026 年年度規劃，由兄弟姐妹會統整。</p>
+                    <p class="text-sm text-gray-600">初期預算：投入 20 萬，預計購買 600-900 個帳號。</p>
+                </div>
+
+                <!-- 工具與資源 -->
+                <div class="md:col-span-1 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">核心工具與硬體資源</h3>
+                    <ul class="space-y-1 text-sm text-gray-700">
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">⚙️</span> **韓總系統**：快速設定模組，靈活分配任務。</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">💻</span> **蔡總主機**：新增兩台主機 (約 6 萬/台)，可運行 64G 操作量。</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">⏱️</span> **養號效率**：30 分鐘可完成 300 個帳號批次作業。</li>
+                    </ul>
+                </div>
+
+                <!-- 風險與帳號管理 -->
+                <div class="md:col-span-1 p-4 bg-red-50 rounded-lg border border-red-200">
+                    <h3 class="text-lg font-semibold text-red-800 mb-2">風險控管與分層管理</h3>
+                    <ul class="space-y-1 text-sm text-gray-700">
+                        <li class="flex items-center"><span class="text-red-500 mr-2">⚠️</span> **分散來源**：不建議所有帳號向同一來源購買。</li>
+                        <li class="flex items-center"><span class="text-red-500 mr-2">👥</span> **資訊蒐集**：芃豫與柏蓉負責蒐集，統一丟入「兄弟姐妹會」群組。</li>
+                        <li class="flex items-center"><span class="text-red-500 mr-2">📈</span> **AI 協作**：觀察兩到三個月後聲量變化，協助帳號類型分類。</li>
+                    </ul>
+                </div>
+
+                <!-- 帳號類型與成本 -->
+                <div class="md:col-span-3 mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">帳號類型與價值比較</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">類型</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特點</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">成本預估 (台幣)</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">適用情境</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">一次性帳號</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">較便宜，適用單一事件。</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">約 NT$ 70 (十塊金幣)</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">單一事件攻擊或短暫聲量提升。</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">資深帳號</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">有一至兩年好友與活動紀錄，可信度高。</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">較高 (未定，高於 NT$ 70)</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">長期品牌維護、深入互動、高信任度任務。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
